@@ -37,7 +37,7 @@
   }
   .score-box { text-align: center; }
   .score-label { color: #1b4332; font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; }
-  .score-value { color: #1b4332; font-size: 1.2rem; font-weight: bold; }
+  .score-value { color: #1b4332; font-size: 1.2rem; font-weight: normal; }
 
   #overlay {
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
@@ -53,8 +53,8 @@
   /* Texte d'écran d'accueil - responsive */
   #tap-hint, #tap-hint2 {
     text-align: center;
-    font-family: 'Anton', Impact, 'Arial Black', sans-serif;
-    font-weight: 700;
+    font-family: 'Anton', 'Century Gothic', 'Arial Black', sans-serif;
+    font-weight: 400;
     letter-spacing: 1.5px;
     margin-top: 1.6vh;
     padding: 0 4vw;
@@ -82,10 +82,10 @@
     padding: 25px 30px;
     border: 0;
     border-radius: 12px;
-    font-weight: 800;
+    font-weight: 400;
     letter-spacing: 3px;
     cursor: pointer;
-    font-family: Impact, 'Arial Black', sans-serif;
+    font-family: 'Century Gothic', 'Arial Black', sans-serif;
     background: #f9dd08;
     color: #2969aa;
     box-shadow: 0 10px 20px rgba(0,0,0,0.18);
@@ -114,7 +114,7 @@
   #score-svg-container svg { width: 100%; height: auto; }
   #final-score-text {
     position: absolute; bottom: 17%; left: 50%; transform: translateX(-50%);
-    font-family: Impact, 'Arial Black', sans-serif;
+    font-family: 'Century Gothic', 'Arial Black', sans-serif;
     font-size: 4.5rem; font-weight: 900; color: white;
     text-shadow: 4px 4px 0 rgba(0,0,0,0.4); letter-spacing: 3px;
   }
@@ -124,8 +124,8 @@
   .game-over-btn {
     padding: 15px 30px; background: linear-gradient(135deg, #ffd166, #f6b67d);
     border: none; border-radius: 8px; color: #1b4332;
-    font-size: 1.1rem; font-weight: bold;
-    font-family: Impact, 'Arial Black', sans-serif;
+    font-size: 1.1rem; font-weight: 400;
+    font-family: 'Century Gothic', 'Arial Black', sans-serif;
     cursor: pointer; transition: transform 0.2s;
   }
   .game-over-btn:hover { transform: scale(1.05); }
@@ -135,16 +135,16 @@
   #promo-code {
     background: linear-gradient(135deg, #4ecdc4, #44a3a0);
     color: white; padding: 20px; border-radius: 10px;
-    margin: 20px 0; font-family: Impact, 'Arial Black', sans-serif;
+    margin: 20px 0; font-family: 'Century Gothic', 'Arial Black', sans-serif;
     animation: pulse 2s infinite;
   }
-  #promo-code h3 { font-family: Impact, 'Arial Black', sans-serif; font-size: 1.5rem; margin-bottom: 10px; }
+  #promo-code h3 { font-family: 'Century Gothic', 'Arial Black', sans-serif; font-size: 1.5rem; margin-bottom: 10px; }
   #promo-code .code-container {
     display: flex; align-items: center; justify-content: center;
     gap: 10px; margin-top: 10px;
   }
   #promo-code .code {
-    font-size: 2rem; font-weight: bold; letter-spacing: 5px;
+    font-size: 2rem; font-weight: 400; letter-spacing: 5px;
     background: rgba(255,255,255,0.2); padding: 10px 20px;
     border-radius: 5px;
   }
@@ -161,8 +161,8 @@
     padding: 15px 30px; 
     background: linear-gradient(135deg, #4ecdc4, #44a3a0);
     border: none; border-radius: 8px; color: white;
-    font-size: 1.1rem; font-weight: bold;
-    font-family: Impact, 'Arial Black', sans-serif;
+    font-size: 1.1rem; font-weight: 400;
+    font-family: 'Century Gothic', 'Arial Black', sans-serif;
     cursor: pointer; transition: transform 0.2s;
     text-decoration: none; display: inline-block;
   }
@@ -182,8 +182,8 @@
     padding: 15px 30px; 
     background: linear-gradient(135deg, #ff6b9d, #c44569);
     border: none; border-radius: 8px; color: white;
-    font-size: 1.1rem; font-weight: medium ;
-    font-family: Impact, 'Arial Black', sans-serif;
+    font-size: 1.1rem; font-weight: 400;
+    font-family: 'Century Gothic', 'Arial Black', sans-serif;
     cursor: pointer; transition: transform 0.2s;
   }
   .share-btn:hover { transform: scale(1.05); }
@@ -260,7 +260,7 @@
     <img id="share-preview-img" src="" style="display:block;max-width:800px;width:calc(min(96vw,800px));height:auto;border-radius:8px;" />
     <div style="display:flex;gap:10px;justify-content:center;margin-top:10px;">
       <button id="share-preview-close" style="padding:8px 14px;border-radius:8px;border:0;background:#444;color:#fff;cursor:pointer;">Fermer</button>
-      <a id="share-preview-download" download="easter-egg-score.png" style="padding:8px 14px;border-radius:8px;background:#ffd166;color:#08121a;font-weight:700;text-decoration:none;display:inline-block;">Télécharger</a>
+      <a id="share-preview-download" download="easter-egg-score.png" style="padding:8px 14px;border-radius:8px;background:#ffd166;color:#08121a;font-weight:400;text-decoration:none;display:inline-block;">Télécharger</a>
     </div>
   </div>
 </div>
@@ -354,91 +354,21 @@ async function shareScore() {
   try {
     const text = `J'ai marqué ${score} points à Easter Egg - Atome3D ! 🐱 Suivez @atome3d`;
 
-    // Essayer de partager une image issue du canvas (Web Share Level 2)
-    const canvas = document.getElementById('gameCanvas');
-    if (canvas && canvas.toBlob && window.File) {
-      try {
-        // Créer un canvas temporaire pour composer l'image finale (fond + texte centré)
-        const shareCanvas = document.createElement('canvas');
-        shareCanvas.width = canvas.width;
-        shareCanvas.height = canvas.height;
-        const sctx = shareCanvas.getContext('2d');
-
-        // Copier le rendu du jeu
-        sctx.drawImage(canvas, 0, 0);
-
-        // Dessiner un léger overlay sombre pour améliorer la lisibilité du texte
-        sctx.fillStyle = 'rgba(0,0,0,0.18)';
-        sctx.fillRect(0, 0, shareCanvas.width, shareCanvas.height);
-
-        // Préparer le texte centré avec wrapping (max 800px)
-        const lineMain = `J'ai fait un score de ${score}`;
-        const maxTextWidth = Math.min(800, Math.round(shareCanvas.width * 0.85));
-
-        // Police principale responsive
-        const baseFontSize = Math.round(shareCanvas.height * 0.07);
-        sctx.fillStyle = '#ffffff';
-        sctx.textAlign = 'center';
-        sctx.textBaseline = 'middle';
-
-        // fonction pour dessiner du texte multi-lignes centré
-        function drawWrappedText(ctx, text, x, y, maxWidth, fontSize, lineHeightFactor = 1.12) {
-          ctx.font = `bold ${fontSize}px Anton, Impact, 'Arial Black', sans-serif`;
-          const words = text.split(' ');
-          const lines = [];
-          let current = words[0] || '';
-          for (let i = 1; i < words.length; i++) {
-            const w = words[i];
-            const test = current + ' ' + w;
-            if (ctx.measureText(test).width <= maxWidth) {
-              current = test;
-            } else {
-              lines.push(current);
-              current = w;
-            }
-          }
-          lines.push(current);
-
-          const lineHeight = Math.round(fontSize * lineHeightFactor);
-          const totalHeight = lines.length * lineHeight;
-          const startY = y - totalHeight / 2 + lineHeight / 2;
-
-          ctx.lineWidth = Math.max(0, Math.round(fontSize * 0.12));
-          ctx.fillStyle = '#ffffff';
-          for (let i = 0; i < lines.length; i++) {
-            const ly = startY + i * lineHeight;
-            ctx.fillText(lines[i], x, ly);
-          }
-          return { top: startY - lineHeight / 2, bottom: startY + totalHeight - lineHeight / 2 };
-        }
-
-        const cx = shareCanvas.width / 2;
-        const cy = shareCanvas.height / 2;
-
-        // Draw main block (wrapped)
-        const mainFont = Math.max(18, baseFontSize);
-        const mainBounds = drawWrappedText(sctx, lineMain, cx, cy - Math.round(baseFontSize * 0.2), maxTextWidth, mainFont, 1.1);
-
-        // No secondary promotional line is drawn per request.
-
-        // Exporter la composition
-        const blob = await new Promise(resolve => shareCanvas.toBlob(resolve, 'image/png'));
-        if (blob) {
-          const file = new File([blob], 'easter-egg-score.png', { type: blob.type || 'image/png' });
-          if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            // Inclure l'URL du profil Instagram pour référence
-            await navigator.share({ files: [file], title: 'Mon score Easter Egg - Atome3D', text, url: 'https://instagram.com/atome3d' });
-            return; // partagé avec succès
-          }
-
-          // Si on ne peut pas partager automatiquement, afficher un aperçu avec un lien cliquable
-          const blobUrl = URL.createObjectURL(blob);
-          showSharePreview(blobUrl);
+    // Générer l'image story HD 1080x1920 et la partager (ou l'afficher en aperçu)
+    try {
+      const blob = await generateStoryImage(score);
+      if (blob) {
+        const file = new File([blob], 'easter-egg-story.png', { type: blob.type || 'image/png' });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({ files: [file], title: 'Mon score Easter Egg - Atome3D', text, url: 'https://instagram.com/atome3d' });
           return;
         }
-      } catch (e) {
-        console.warn('Partage d\'image échoué, fallback texte:', e);
+        const blobUrl = URL.createObjectURL(blob);
+        showSharePreview(blobUrl);
+        return;
       }
+    } catch (e) {
+      console.warn('Génération story échouée, fallback canvas:', e);
     }
 
     // Fallback texte / URL
@@ -460,6 +390,157 @@ async function shareScore() {
       alert(`Votre score : ${score} points !`);
     }
   }
+}
+
+// Génère une image story 1080x1920 (HD) avec fond, sol, personnage et logo,
+// texte sur deux lignes centré en Century Gothic bold, marge min 200px.
+async function generateStoryImage(score) {
+  const W = 1080, H = 1920;
+  const c = document.createElement('canvas');
+  c.width = W; c.height = H;
+  const cx = c.getContext('2d');
+
+  // Background gradient
+  const g = cx.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, '#a8d8ea');
+  g.addColorStop(1, '#7ab8d4');
+  cx.fillStyle = g;
+  cx.fillRect(0, 0, W, H);
+
+  // Ground
+  const groundH = Math.round(H * 0.18);
+  cx.fillStyle = '#2f855a';
+  cx.fillRect(0, H - groundH, W, groundH);
+
+  // Draw simple decorative background elements: mountains, clouds
+  function drawMountain(x, w, h, color) {
+    const peakX = x + w / 2;
+    const baseY = Math.round(H * 0.32);
+    cx.beginPath();
+    cx.moveTo(x, baseY + h * 0.6);
+    cx.lineTo(peakX, baseY - h);
+    cx.lineTo(x + w, baseY + h * 0.6);
+    cx.closePath();
+    const mg = cx.createLinearGradient(0, baseY - h, 0, baseY + h * 0.6);
+    mg.addColorStop(0, color);
+    mg.addColorStop(1, '#5a6b67');
+    cx.fillStyle = mg;
+    cx.fill();
+  }
+
+  function drawCloud(x, y, scale = 1) {
+    cx.fillStyle = 'rgba(255,255,255,0.95)';
+    cx.beginPath();
+    const r = 40 * scale;
+    cx.ellipse(x, y, r * 1.4, r, 0, 0, Math.PI * 2);
+    cx.ellipse(x + r * 0.9, y - r * 0.2, r * 1.1, r * 0.85, 0, 0, Math.PI * 2);
+    cx.ellipse(x - r * 0.9, y - r * 0.2, r * 1.05, r * 0.8, 0, 0, Math.PI * 2);
+    cx.closePath();
+    cx.fill();
+  }
+
+  // Mountains behind (several layers)
+  drawMountain(-100, 900, 260, '#7aa3b1');
+  drawMountain(200, 700, 200, '#6f98a6');
+  drawMountain(600, 800, 240, '#628b9b');
+
+  // Clouds
+  drawCloud(200, 180, 1.6);
+  drawCloud(520, 140, 1.1);
+  drawCloud(840, 220, 1.4);
+
+  // Draw character if available, else placeholder circle
+  try {
+    if (spritePerso && spritePerso.complete && spritePerso.naturalWidth) {
+      const cw = Math.round(W * 0.28);
+      const ch = Math.round(cw * (spritePerso.naturalHeight / spritePerso.naturalWidth || 1));
+      const x = Math.round((W - cw) / 2);
+      const y = Math.round(H - groundH - ch + 20);
+      cx.drawImage(spritePerso, x, y, cw, ch);
+    } else {
+      const r = Math.round(W * 0.08);
+      cx.fillStyle = '#ffd166';
+      cx.beginPath(); cx.arc(W / 2, H - groundH - r - 20, r, 0, Math.PI * 2); cx.fill();
+    }
+  } catch (e) {}
+
+  // Draw logo at bottom centered
+  try {
+    if (logoAtomeImg && logoAtomeImg.src) {
+      const logoW = Math.min(560, Math.round(W * 0.5));
+      const aspect = (logoAtomeAspect && logoAtomeAspect > 0) ? logoAtomeAspect : (logoAtomeImg.naturalHeight / logoAtomeImg.naturalWidth || 0.12);
+      const logoH = Math.round(logoW * aspect);
+      const lx = Math.round((W - logoW) / 2);
+      const ly = H - logoH - 40;
+      cx.drawImage(logoAtomeImg, lx, ly, logoW, logoH);
+    }
+  } catch (e) {}
+
+  // Draw top logo (small) centered near top
+  try {
+    if (logoAtomeImg && logoAtomeImg.src) {
+      const topLogoW = Math.min(420, Math.round(W * 0.45));
+      const aspectT = (logoAtomeAspect && logoAtomeAspect > 0) ? logoAtomeAspect : (logoAtomeImg.naturalHeight / logoAtomeImg.naturalWidth || 0.12);
+      const topLogoH = Math.round(topLogoW * aspectT);
+      const tlx = Math.round((W - topLogoW) / 2);
+      const tly = 40;
+      cx.drawImage(logoAtomeImg, tlx, tly, topLogoW, topLogoH);
+    }
+  } catch (e) {}
+
+  // Draw grasses on the ground as small clumps
+  try {
+    const grassY = H - groundH + 6;
+    for (let gx = 0; gx < W; gx += 18) {
+      const h = 14 + (Math.abs(Math.sin(gx * 0.05)) * 18);
+      cx.fillStyle = '#2e8b57';
+      cx.beginPath();
+      cx.moveTo(gx, grassY);
+      cx.lineTo(gx + 6, grassY - h);
+      cx.lineTo(gx + 12, grassY);
+      cx.closePath();
+      cx.fill();
+    }
+  } catch (e) {}
+
+  // Prepare text (two lines) with 200px side margins
+  const maxTextWidth = W - 400; // 200px left + 200px right
+  const line1 = `j'ai fait ${score} points`;
+  const line2 = 'sur Atome3D.com';
+
+  // Find largest font size that fits both lines within max width
+  let fontSize = 160;
+  const minFont = 36;
+  cx.textAlign = 'center';
+  cx.textBaseline = 'middle';
+  while (fontSize >= minFont) {
+    cx.font = `bold ${fontSize}px "Century Gothic", sans-serif`;
+    const w1 = cx.measureText(line1).width;
+    const w2 = cx.measureText(line2).width;
+    if (w1 <= maxTextWidth && w2 <= maxTextWidth) break;
+    fontSize -= 4;
+  }
+  if (fontSize < minFont) fontSize = minFont;
+
+  const lineHeight = Math.round(fontSize * 1.05);
+  const centerY = Math.round(H / 2);
+
+  // Draw text in white (no stroke/contour as requested)
+  cx.fillStyle = '#ffffff';
+  cx.font = `bold ${fontSize}px "Century Gothic", sans-serif`;
+  cx.fillText(line1, W / 2, centerY - Math.round(lineHeight / 2));
+  cx.fillText(line2, W / 2, centerY + Math.round(lineHeight / 2));
+
+  // Export PNG blob and show preview
+  return await new Promise(resolve => {
+    c.toBlob(blob => {
+      try {
+        const url = URL.createObjectURL(blob);
+        showSharePreview(url);
+      } catch (e) {}
+      resolve(blob);
+    }, 'image/png');
+  });
 }
 
 // --- Game Over ---
@@ -1012,7 +1093,7 @@ function updateDrawBonusParticles() {
     ctx.globalAlpha = p.life / p.maxLife;
     if (p.text) {
       ctx.fillStyle = '#fff';
-      ctx.font = `bold ${Math.round(H*0.04)}px 'Courier New'`;
+      ctx.font = `${Math.round(H*0.04)}px 'Courier New'`;
       ctx.textAlign = 'center';
       ctx.fillText('+50', p.x, p.y);
       ctx.textAlign = 'left';
@@ -1143,7 +1224,7 @@ function drawBonusNPC() {
   ctx.save();
   ctx.globalAlpha = 0.85 + Math.sin(Date.now() * 0.006) * 0.15;
   ctx.fillStyle = '#ffd700';
-  ctx.font = 'bold ' + Math.round(H * 0.025) + 'px Courier New';
+  ctx.font = Math.round(H * 0.025) + 'px Courier New';
   ctx.textAlign = 'center';
   ctx.fillText('', bonusNPC.x + bonusNPC.w/2, bonusNPC.y + bob - H * 0.02);
   ctx.textAlign = 'left';
