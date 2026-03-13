@@ -15,8 +15,8 @@
     display: flex; align-items: center; justify-content: center;
     padding: 2px 20px; z-index: 10; pointer-events: none;
   }
-  #logo-img { width: 25vw; height: auto; display: block; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3)); transition: all 0.3s ease; }
-  @media (orientation: portrait) { #logo-img { width: 40vw; } }
+  #logo-img { width: 15vw; height: auto; display: block; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3)); transition: all 0.3s ease; }
+  @media (orientation: portrait) { #logo-img { width: 25vw; } }
   
   /* Logo réduit en game over */
   #ui.game-over-mode {
@@ -39,7 +39,7 @@
   .score-label { color: #1b4332; font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; }
   .score-value { color: #1b4332; font-size: 1.2rem; font-weight: normal; }
   @media (max-width: 768px) {
-    #scores { top: 16px; right: 16px; gap: 14px; }
+    #scores { top: 140px; right: 16px; gap: 14px; }
     .score-label { font-size: 0.78rem; letter-spacing: 2.2px; }
     .score-value { font-size: 1.65rem; }
   }
@@ -149,11 +149,24 @@
   .dark-overlay.active { opacity: 1; }
 
 #game-over-screen {
-    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    z-index: 200; text-align: center; pointer-events: all;
-  }
+    position: fixed; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+    z-index: 200; 
+    text-align: center; 
+    pointer-events: all;
+    width: 90vw;
+    max-width: 800px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* This removes the scrollbar */
+}
   #score-svg-container {
-    width: 400px; max-width: 90vw; margin: 0 auto 30px; position: relative;
+    width: 400px; max-width: 90vw; margin: 10px auto 30px; position: relative;
   }
   #score-svg-container svg { width: 100%; height: auto; }
   #final-score-text {
@@ -163,8 +176,15 @@
     text-shadow: 4px 4px 0 rgba(0,0,0,0.4); letter-spacing: 3px;
   }
   @media (max-width: 768px) {
-    #score-svg-container { width: min(520px, 96vw); margin: 0 auto 22px; }
-    #final-score-text { font-size: clamp(4.9rem, 18vw, 7.2rem); bottom: 16%; }
+    #score-svg-container { 
+      width: 75vw;           /* Reduced from 96vw to save height */
+      max-width: 300px; 
+      margin: 15px auto 5px; /* Reduced top margin to 15px */
+    }
+    #final-score-text { 
+      font-size: clamp(3.2rem, 14vw, 4.5rem); /* Scaled down text */
+      bottom: 16%; 
+    }
   }
   #game-over-buttons {
     display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;
@@ -308,10 +328,11 @@
   #leaderboard-card {
     width: min(720px, 92vw);
     max-height: 86vh;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     background: linear-gradient(180deg, rgba(255, 221, 8, 0.95), rgba(255, 209, 102, 0.92));
     border-radius: 14px;
-    padding: 14px 14px 16px;
+    padding: 16px;
     box-shadow: 0 18px 50px rgba(0,0,0,0.35);
   }
   #leaderboard-head {
@@ -381,6 +402,7 @@
   }
   #leaderboard-table {
     width: 100%;
+    table-layout: fixed;
     border-collapse: separate;
     border-spacing: 0 10px;
     font-family: 'Century Gothic', 'Arial Black', sans-serif;
@@ -388,21 +410,37 @@
   }
   #leaderboard-table thead th {
     text-align: left;
-    font-size: 0.85rem;
-    letter-spacing: 2px;
+    font-size: clamp(0.65rem, 2.5vw, 0.85rem);
+    letter-spacing: 1px;
     text-transform: uppercase;
     color: rgba(18, 58, 102, 0.95);
-    padding: 0 12px 2px;
+    padding: 0 8px 2px;
   }
   #leaderboard-table tbody tr {
-    background: rgba(10, 30, 60, 0.30); /* bleu fonce transparent (30%) */
+    background: rgba(10, 30, 60, 0.30);
   }
   #leaderboard-table tbody td {
-    padding: 12px;
-    color: #123a66; /* bleu marine */
+    padding: 10px 8px;
+    color: #123a66;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
-  #leaderboard-table tbody tr td:first-child { border-top-left-radius: 12px; border-bottom-left-radius: 12px; width: 18%; }
-  #leaderboard-table tbody tr td:last-child  { border-top-right-radius: 12px; border-bottom-right-radius: 12px; text-align: right; width: 22%; }
+  /* Column widths adjusted for mobile stability */
+  #leaderboard-table tbody tr td:first-child { 
+    border-top-left-radius: 12px; 
+    border-bottom-left-radius: 12px; 
+    width: 20%; 
+  }
+  #leaderboard-table tbody tr td:nth-child(2) {
+    width: 55%;
+  }
+  #leaderboard-table tbody tr td:last-child  { 
+    border-top-right-radius: 12px; 
+    border-bottom-right-radius: 12px; 
+    text-align: right; 
+    width: 25%; 
+  }
   .lb-dim { color: rgba(18, 58, 102, 0.8); }
   .lb-you { outline: 2px solid rgba(18, 58, 102, 0.55); outline-offset: -2px; }
 
