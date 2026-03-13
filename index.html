@@ -149,8 +149,10 @@
   .dark-overlay.active { opacity: 1; }
 
 #game-over-screen {
-    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    position: fixed; top: 50dvh; left: 50%; transform: translate(-50%, -50%);
     z-index: 200; text-align: center; pointer-events: all;
+    max-height: 90dvh;
+    overflow-y: auto;
   }
   #score-svg-container {
     width: 400px; max-width: 90vw; margin: 10px auto 30px; position: relative;
