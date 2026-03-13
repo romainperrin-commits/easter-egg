@@ -943,6 +943,8 @@ function restartGame() {
   gameOverScreen.classList.add('hidden'); 
   darkOverlay.classList.remove('active');
   uiDiv.classList.remove('game-over-mode'); // Rétablir la taille normale du logo
+  if (lbForm) lbForm.classList.remove('hidden');
+
   try { if (bottomLogo) bottomLogo.classList.remove('game-over-mode'); } catch(e){}
   try { if (resultPromoHintEl) { resultPromoHintEl.textContent = ''; resultPromoHintEl.classList.add('hidden'); } } catch(e){}
   // Rétablir le bouton d'offre (au cas où il était désactivé)
@@ -1097,8 +1099,32 @@ function escapeHtml(s) {
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#39;');
 }
-
 async function loadLeaderboard() {
+  const XANO_LIST_TOP_API = "https://x8gq-mfo5-qc5h.f2.xano.io/api:HBl2be2k/easter_egg_record"
+  lbMeta.textContent = 'Chargement du classement...';
+  try {
+    const response = await fetch(XANO_LIST_TOP_API); // Use your Top 10 API URL
+    if (!response.ok) throw new Error('Erreur de chargement Xano');
+    
+    const data = await response.json();
+
+    // Map the Xano array (e.g., [{name: "Alice", score: 500}, ...]) to the rank format
+    lbRows = data.map((item, index) => ({
+      rank: index + 1,
+      name: item.name,
+      score: item.score
+    }));
+
+    lbMeta.textContent = 'Top 10 des meilleurs scores.';
+    // Passing lbLastSubmission allows highlighting the player's last entry if it's in the list
+    renderLeaderboard({ highlight: lbLastSubmission }); 
+  } catch (e) {
+    console.warn('Leaderboard load failed:', e);
+    lbMeta.textContent = "Impossible de charger le classement.";
+  }
+}
+
+/* async function loadLeaderboard() {
   lbMeta.textContent = 'Chargement du classement...';
   try {
     if (LEADERBOARD_API_URL) {
@@ -1125,10 +1151,12 @@ async function loadLeaderboard() {
     lbBody.innerHTML = '';
   }
 }
+*/
 
 async function handleLeaderboardSubmit() {
   const rawName = (lbName.value || '').trim();
   const name = rawName.replace(/\s+/g, ' ').slice(0, 18);
+  const XANO_API_URL = "https://x8gq-mfo5-qc5h.f2.xano.io/api:HBl2be2k/easter_egg_record";
   if (!name) {
     lbName.focus();
     lbMeta.textContent = 'Entre ton nom avant de valider.';
@@ -1136,9 +1164,32 @@ async function handleLeaderboardSubmit() {
   }
   saveToStorage('playerName', name);
 
+
   const currentScore = Number(score || 0) || 0;
   lbMeta.textContent = 'Validation en cours...';
 
+  try {
+      // Replacement for the failing jsonp logic
+      const response = await fetch(XANO_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name,
+          score: score // global game score variable
+        })
+      });
+
+      if (!response.ok) throw new Error('Erreur réseau Xano');
+
+      // Refresh the list from Xano after successful submission
+      await loadLeaderboard();
+
+      lbMeta.textContent = 'Score enregistré !';
+      lbForm.classList.add('hidden');
+    } catch (e) {
+      console.error('Leaderboard submit failed:', e);
+      lbMeta.textContent = "Erreur lors de l'enregistrement. Réessaye.";
+    }
   // Try remote write (Apps Script); fallback to local ranking computation.
   try {
     if (LEADERBOARD_API_URL) {
