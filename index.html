@@ -156,12 +156,13 @@
     z-index: 200; 
     text-align: center; 
     pointer-events: all;
-    width: 96vw;             /* Added: Use more width for content */
-    max-height: 95dvh;       /* Added: Max height for safe area */
-    display: flex;           /* Added: Flex layout to manage spacing */
+    width: 92vw;
+    max-height: 90dvh; /* Keeps content away from extreme top/bottom edges */
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    overflow: hidden; /* Prevents internal slipping */
 }
   #score-svg-container {
     width: 400px; max-width: 90vw; margin: 10px auto 30px; position: relative;
@@ -174,8 +175,15 @@
     text-shadow: 4px 4px 0 rgba(0,0,0,0.4); letter-spacing: 3px;
   }
   @media (max-width: 768px) {
-    #score-svg-container { width: min(520px, 96vw); margin: 100px auto 22px; }
-    #final-score-text { font-size: clamp(4.9rem, 18vw, 7.2rem); bottom: 16%; }
+    #score-svg-container { 
+      width: 75vw;           /* Reduced from 96vw to save height */
+      max-width: 300px; 
+      margin: 15px auto 5px; /* Reduced top margin to 15px */
+    }
+    #final-score-text { 
+      font-size: clamp(3.2rem, 14vw, 4.5rem); /* Scaled down text */
+      bottom: 16%; 
+    }
   }
   #game-over-buttons {
     display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;
