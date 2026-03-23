@@ -596,13 +596,14 @@
     <p style="font-size: 0.9rem; margin-top: 10px;"></p>
   </div>
   <div id="game-over-buttons">
-    <button class="game-over-btn" onclick="restartGame()">REJOUER</button>
+    <button class="game-over-btn" id="btn-restart">REJOUER</button>
     <a href="https://www.atome3d.com/discount/egg2026" target="_blank" class="game-over-btn offer-btn">J'EN PROFITE</a>
-    <button class="game-over-btn secondary" onclick="openLeaderboard()">CLASSEMENT</button>
+    <button class="game-over-btn secondary" id="btn-leaderboard">CLASSEMENT</button>
   </div>
 </div>
 
-<script>
+<script type="module">
+import { spawnFlyingLogo, updateAndDrawLogos, resetLogos } from './flyingLogos.js';
 let badWordsRegex = null;
 
 async function initWordFilter() {
@@ -1028,6 +1029,7 @@ function restartGame() {
   player.snapToGround(); player.vy = 0; player.onGround = true;
   player.runCycle = 0; player.squishX = 1; player.squishY = 1;
   speed = BASE_SPEED;
+  resetLogos();
 }
 
 // --- Helpers pour l'aperçu de partage ---
@@ -2009,12 +2011,14 @@ function gameLoop() {
     drawSky();
     drawMountains();
     drawClouds();
+    updateAndDrawLogos(ctx, W, H, CHAR_W, CHAR_H, speed, gameState);
     drawGround();
     drawBgGrass();
     drawEggs();
     drawBonusNPC();
     drawObstacles();
     updateDrawParticles();
+    
     player.update();
     player.draw();
     drawTransformEffect();
@@ -2083,6 +2087,8 @@ function handleInput() {
   if (gameState === 'idle') {
     gameState = 'playing';
     overlayEl.classList.add('hidden');
+    resetLogos(); // Clear any old logos
+    spawnFlyingLogo(W, H, CHAR_W, CHAR_H, speed);
     frameCount = 0; score = 0; speed = BASE_SPEED;
     obstacles.length = 0; eggs.length = 0; bonusParticles.length = 0; spawnTimer = 0; eggTimer = 0; bonusNPC = null; bonusNPCSpawned = false; bonusNPC3Spawned = false; playerSkin = "normal"; transformEffect = 0; printerCounter = 0;
     player.snapToGround(); player.vy = 0; player.onGround = true;
@@ -2099,6 +2105,13 @@ canvas.addEventListener('mousedown',  e => { e.preventDefault(); handleInput(); 
 // Initialisation au démarrage
 // L'overlay (écran d'accueil) reste visible jusqu'à ce que le joueur clique sur JOUER ou appuie.
 
-gameLoop();</script>
+gameLoop();
+// Attach functions to the global window object so HTML onclick attributes can find them
+window.restartGame = restartGame;
+window.openLeaderboard = openLeaderboard;
+window.copyPromoCode = copyPromoCode;
+document.getElementById('btn-restart').addEventListener('click', restartGame);
+document.getElementById('btn-leaderboard').addEventListener('click', openLeaderboard);
+</script>
 </body>
 </html>
