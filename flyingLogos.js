@@ -1,4 +1,4 @@
-const logoFiles = ['logocreality.svg', 'logoelegoo.svg', 'logoesun.svg'];
+const logoFiles = ['logocreality.svg', 'logoelegoo.svg', 'logoesun.svg','logorevopoint.svg'];
 const logoImages = logoFiles.map(src => {
     const img = new Image();
     img.src = src;
